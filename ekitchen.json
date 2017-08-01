@@ -14,6 +14,7 @@
     }],
     "build": {
       "commands": [
+        "npm i",
         "npm run build-es5"
       ]
     },
