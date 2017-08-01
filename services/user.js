@@ -5,11 +5,12 @@ const Api = require('../lib/api')
 // 获取所有用户
 function * getMembers (data, page) {
   const per_page = 100
-  const { data: members } = yield github.orgs.getMembers({
+  let members = yield github.orgs.getMembers({
     org: 'eleme',
     page: page,
     per_page
   })
+  members = members.data
   data = data.concat(members)
   if (members.length === per_page) {
     data = yield getMembers(data, ++page)
@@ -36,7 +37,7 @@ exports.handler = function() {
       }
       return true
     })
-    
+
     if (username.length) {
       yield Api.createRecords('user', username)
       console.log('更新用户', username)
