@@ -1,0 +1,28 @@
+{
+    "appid": "crawler_github",
+    "author": "zhongyang.zhou@ele.me",
+    "notice": ["zhongyang.zhou@ele.me"],
+    "services": [{
+        "serviceName": "crawler_github",
+        "funcs": [{
+            "functionName": "user",
+            "handler": "services/user.handler"
+        }, {
+            "functionName": "repo",
+            "handler": "services/repo.handler"
+        }]
+    }],
+    "deploy": {
+        "env": {
+            "alpha": {
+                "TOKEN": ""
+            },
+            "beta": {
+                "TOKEN": ""
+            },
+            "production": {
+                "TOKEN": ""
+            }
+        }
+    }
+}
