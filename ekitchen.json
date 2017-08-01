@@ -6,12 +6,17 @@
         "serviceName": "crawler_github",
         "funcs": [{
             "functionName": "user",
-            "handler": "services/user.handler"
+            "handler": "es5/user.handler"
         }, {
             "functionName": "repo",
-            "handler": "services/repo.handler"
+            "handler": "es5/repo.handler"
         }]
     }],
+    "build": {
+      "commands": [
+        "npm run build-es5"
+      ]
+    },
     "deploy": {
         "env": {
             "alpha": {

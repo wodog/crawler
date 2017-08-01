@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-es5": "babel services -d es5 --source-maps --copy-files"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +13,9 @@
     "co": "^4.6.0",
     "github": "^9.2.0",
     "node-fetch": "^1.7.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0"
   }
 }
