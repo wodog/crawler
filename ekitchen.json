@@ -7,10 +7,14 @@
         "funcs": [{
             "functionName": "user",
             "handler": "es5/user.handler",
+            "memorySize": 128,
+            "runtime": "nodejs4.4",
             "timeout": 300
         }, {
             "functionName": "repo",
             "handler": "es5/repo.handler",
+            "memorySize": 128,
+            "runtime": "nodejs4.4",
             "timeout": 300
         }]
     }],
