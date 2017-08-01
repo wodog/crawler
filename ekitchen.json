@@ -6,10 +6,12 @@
         "serviceName": "crawler_github",
         "funcs": [{
             "functionName": "user",
-            "handler": "es5/user.handler"
+            "handler": "es5/user.handler",
+            "timeout": 300
         }, {
             "functionName": "repo",
-            "handler": "es5/repo.handler"
+            "handler": "es5/repo.handler",
+            "timeout": 300
         }]
     }],
     "build": {
