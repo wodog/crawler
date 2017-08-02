@@ -7,16 +7,20 @@ const Api = require('../lib/api')
 // 获取所有用户
 function * getMembers (data, page) {
   const per_page = 100
+  console.log(2.1)
   let members = yield github.orgs.getMembers({
     org: 'eleme',
     page: page,
     per_page
   })
+  console.log(2.2)
   members = members.data
   data = data.concat(members)
   if (members.length === per_page) {
+    console.log(2.3)
     data = yield getMembers(data, ++page)
   }
+  console.log(2.4)
   return data
 }
 
@@ -26,7 +30,11 @@ exports.handler = function(event, context, callback) {
     console.log(1)
     const users = yield Api.queryRecords('user')
     console.log(2)
-    const members = yield getMembers([], 1)
+    try {
+      const members = yield getMembers([], 1)
+    } catch (err) {
+      console.log(err)
+    }
     let username = members.map(member => {
       return { name: member.login }
     })

@@ -11,8 +11,8 @@
             "runtime": "nodejs4.4",
             "timeout": 300
         }, {
-            "functionName": "repo",
-            "handler": "es5/repo.handler",
+            "functionName": "repos",
+            "handler": "es5/repos.handler",
             "memorySize": 128,
             "runtime": "nodejs4.4",
             "timeout": 300
