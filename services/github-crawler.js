@@ -19,7 +19,8 @@ function isfilter (path) {
   return false
 }
 
-function analy (text) {
+// 校验规则
+function analy (url, text) {
   if (text.includes('COFFEE_TOKEN')) {
     email(url)
   }
@@ -47,19 +48,7 @@ function * request(url, counter) {
     } else {
       const text = $('.file').text()
       counter.file++
-      analy(text)
-      // 如果有文件内容
-      // if (text) {
-        // console.log(1)
-        // const event = {
-        //   url,
-        //   text
-        // }
-        // if (config.debug) {
-        //   require('./analy').handler(Buffer.from(JSON.stringify(event)), null, console.log)
-        // } else {
-        //   Api.invoke('analy', event)
-        // }
+      analy(url, text)
     }
   } catch (err) {
     console.log(err)
@@ -84,7 +73,7 @@ exports.handler = function(event, context, callback) {
       fail: 0
     }
     yield request(url, counter)
-    
+
     console.log(`仓库${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
     callback(null, `仓库${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
   }).catch(callback)
