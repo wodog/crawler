@@ -20,13 +20,14 @@ function * getMembers (data, page) {
 // 更新用户列表
 exports.handler = function(event, context, callback) {
   co(function * () {
+    console.log(1)
     const users = yield Api.queryRecords('user')
-
+    console.log(2)
     const members = yield getMembers([], 1)
     let username = members.map(member => {
       return { name: member.login }
     })
-
+    console.log(3)
     // 取差异
     username = username.filter(u => {
       for (const user of users) {
@@ -36,7 +37,7 @@ exports.handler = function(event, context, callback) {
       }
       return true
     })
-
+    console.log(4)
     if (username.length) {
       yield Api.createRecords('user', username)
       console.log('更新用户', username)
