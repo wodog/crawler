@@ -1,6 +1,7 @@
 const co = require('co')
 const github = require('../lib/github')
 const Api = require('../lib/api')
+const config = require('../config')
 
 // 获取所有用户
 function * getMembers (data, page) {
@@ -19,6 +20,7 @@ function * getMembers (data, page) {
 
 // 更新用户列表
 exports.handler = function(event, context, callback) {
+  console.log(config)
   co(function * () {
     console.log(1)
     const users = yield Api.queryRecords('user')
