@@ -84,6 +84,8 @@ exports.handler = function(event, context, callback) {
       fail: 0
     }
     yield request(url, counter)
+    
+    console.log(`仓库${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
     callback(null, `仓库${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
   }).catch(callback)
 }

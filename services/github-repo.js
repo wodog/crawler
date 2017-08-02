@@ -43,6 +43,8 @@ exports.handler = function (event, context, callback) {
         Api.invoke('github-crawler', data)
       }
     }
+    
+    console.log(`总共${repos.length}个repo, 分别是 ${repos}`)
     callback(null, `总共${repos.length}个repo, 分别是 ${repos}`)
   }).catch(callback)
 }
