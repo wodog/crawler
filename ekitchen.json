@@ -5,14 +5,26 @@
     "services": [{
         "serviceName": "crawler_github",
         "funcs": [{
-            "functionName": "user",
-            "handler": "es5/user.handler",
+            "functionName": "github-user",
+            "handler": "es5/github-user.handler",
             "memorySize": 128,
             "runtime": "nodejs4.4",
             "timeout": 300
         }, {
-            "functionName": "repos",
-            "handler": "es5/repos.handler",
+            "functionName": "github-repos",
+            "handler": "es5/github-repos.handler",
+            "memorySize": 128,
+            "runtime": "nodejs4.4",
+            "timeout": 300
+        }, {
+            "functionName": "github-crawler",
+            "handler": "es5/github-crawler.handler",
+            "memorySize": 128,
+            "runtime": "nodejs4.4",
+            "timeout": 300
+        }, {
+            "functionName": "analy",
+            "handler": "es5/analy.handler",
             "memorySize": 128,
             "runtime": "nodejs4.4",
             "timeout": 300

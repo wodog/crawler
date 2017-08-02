@@ -1,3 +1,15 @@
 {
-  "github_token": "{{_ .github_token }}"
+  "email": {
+    "API": "{{_ .EMAIL_API}}",
+    "KEY": "{{_ .EMAIL_KEY}}",
+    "TOKEN": "{{_ .EMAIL_TOKEN}}"
+  },
+  "github": {
+    "HOST": "{{_ .GITHUB.HOST}}",
+    "TOKEN": "{{_ .GITHUB.TOKEN}}"
+  },
+  "baas": {
+    "HOST": "{{_ .BAAS.HOST}}",
+    "APPID": "{{_ BAAS.APPID}}"
+  }
 }
