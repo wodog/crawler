@@ -46,5 +46,5 @@ exports.handler = function(event, context, callback) {
   }
   request(`${github_host}/${user}/${repo}`)
 
-  callback('启动完毕')
+  callback(null, '启动完毕')
 }

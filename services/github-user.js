@@ -28,6 +28,7 @@ exports.handler = function(event, context, callback) {
       return { name: member.login }
     })
     console.log(3)
+    console.log(username)
     // 取差异
     username = username.filter(u => {
       for (const user of users) {
@@ -43,6 +44,8 @@ exports.handler = function(event, context, callback) {
       console.log('更新用户', username)
     }
 
-    callback('更新用户成功')
+    callback(null, '更新用户成功')
+  }).catch(err => {
+    callback(err)
   })
 }

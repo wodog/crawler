@@ -59,6 +59,8 @@ exports.handler = function (event, context, callback) {
       console.log('更新repo', result)
     }
 
-    callback('更新repo成功')
+    callback(null, '更新repo成功')
+  }).catch(err => {
+    callback(err)
   })
 }
