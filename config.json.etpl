@@ -5,11 +5,11 @@
     "TOKEN": "{{_ .EMAIL_TOKEN}}"
   },
   "github": {
-    "HOST": "{{_ .GITHUB.HOST}}",
-    "TOKEN": "{{_ .GITHUB.TOKEN}}"
+    "HOST": "{{_ .GITHUB_HOST}}",
+    "TOKEN": "{{_ .GITHUB_TOKEN}}"
   },
   "baas": {
-    "HOST": "{{_ .BAAS.HOST}}",
-    "APPID": "{{_ BAAS.APPID}}"
+    "HOST": "{{_ .BAAS_HOST}}",
+    "APPID": "{{_ BAAS_APPID}}"
   }
 }
