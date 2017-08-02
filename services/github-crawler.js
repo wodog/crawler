@@ -27,7 +27,7 @@ function request(url) {
         }
         if (config.debug) {
           const buf = Buffer.from(JSON.stringify(event))
-          require('./analy').handler(buf)
+          require('./analy').handler(buf, null, console.log)
         } else {
           Api.invoke('analy', event)
         }
@@ -45,4 +45,6 @@ exports.handler = function(event, context, callback) {
     return
   }
   request(`${github_host}/${user}/${repo}`)
+
+  callback('启动完毕')
 }

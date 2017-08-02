@@ -18,7 +18,7 @@ function * getMembers (data, page) {
 }
 
 // 更新用户列表
-exports.handler = function() {
+exports.handler = function(event, context, callback) {
   co(function * () {
     const users = yield Api.queryRecords('user')
 
@@ -42,6 +42,6 @@ exports.handler = function() {
       console.log('更新用户', username)
     }
 
-    console.log('更新用户成功')
+    callback('更新用户成功')
   })
 }

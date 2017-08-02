@@ -11,4 +11,5 @@ exports.handler = function(event, context, callback) {
   if (event.text.includes('COFFEE_TOKEN')) {
     email(event.url)
   }
+  callback('分析完毕')
 }
