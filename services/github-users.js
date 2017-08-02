@@ -7,7 +7,7 @@ const config = require('../config')
 function * getMembers (data, page) {
   const per_page = 100
   const { data: members } = yield github.orgs.getMembers({
-    org: 'eleme',
+    org: 'elemefe',
     page: page,
     per_page
   })

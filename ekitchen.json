@@ -11,6 +11,12 @@
             "runtime": "nodejs4.4",
             "timeout": 300
         }, {
+            "functionName": "github-repo",
+            "handler": "es5/github-repo.handler",
+            "memorySize": 128,
+            "runtime": "nodejs4.4",
+            "timeout": 300
+        }, {
             "functionName": "github-repos",
             "handler": "es5/github-repos.handler",
             "memorySize": 128,

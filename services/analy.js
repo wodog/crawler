@@ -7,9 +7,8 @@ const email = require('../lib/email')
 
 exports.handler = function(event, context, callback) {
   event = JSON.parse(event.toString())
-  console.log(event)
   if (event.text.includes('COFFEE_TOKEN')) {
     email(event.url)
   }
-  callback(null, '分析完毕')
+  callback(null, `${event.url}分析完毕`)
 }

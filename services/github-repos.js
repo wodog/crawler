@@ -1,66 +1,23 @@
-const co = require('co')
-const config = require('../config')
+/**
+ * 所有用户的仓库，并调用
+ */
+
 const Api = require('../lib/api')
-const github = require('../lib/github')
-
-
-function * getRepos (data, user, page) {
-  const per_page = 100
-  const { data: repos } = yield github.repos.getForUser({
-    username: user,
-    page: page,
-    per_page
-  })
-  data = data.concat(repos)
-  if (data.length === per_page) {
-    data = yield getMembers(data, ++page)
-  }
-  return data
-}
+const config = require('../config')
 
 exports.handler = function (event, context, callback) {
-  event = JSON.parse(event.toString())
-  const user = event.user
-  if (!user) {
-    callback('参数不正确')
-    return
-  }
-
-  co(function * () {
-    // 已保存的数据
-    const repos = yield Api.queryRecords('repo')
-
-    // 最新所有数据
-    let result = []
-    const data = yield getRepos([], user, 1)
-    for (const repo of data) {
-      const obj = {}
-      obj.user = user
-      obj.name = repo.name
-      obj.description = repo.description
-      obj.html = repo.html_url
-      obj.created = repo.created_at
-      result.push(obj)
-    }
-
-    // 取差异
-    result = result.filter(r => {
-      for (const repo of repos) {
-        if (r.user === repo.user && r.name === repo.name) {
-          return false
-        }
+  Api.queryRecords('user').then(users => {
+    users = users.map(user => user.name)
+    for (const user of users) {
+      const data = {
+        user: user
       }
-      return true
-    })
-
-    // 保存差异数据
-    if (result.length) {
-      yield Api.createRecords('repo', result)
-      console.log('更新repo', result)
+      if (config.debug) {
+        require('./github-repo').handler(Buffer.from(JSON.stringify(data)), null, console.log)
+      } else {
+        Api.invoke('github-repo', data)
+      }
     }
-
-    callback(null, '更新repo成功')
-  }).catch(err => {
-    callback(err)
-  })
+    callback(null, `执行所有用户 ${users} 的仓库`)
+  }).catch(callback)
 }
