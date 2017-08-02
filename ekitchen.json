@@ -23,18 +23,5 @@
         "npm i",
         "npm run build-es5"
       ]
-    },
-    "deploy": {
-        "env": {
-            "alpha": {
-                "TOKEN": ""
-            },
-            "beta": {
-                "TOKEN": ""
-            },
-            "production": {
-                "TOKEN": ""
-            }
-        }
     }
 }
