@@ -10,6 +10,6 @@
   },
   "baas": {
     "HOST": "{{_ .BAAS_HOST}}",
-    "APPID": "{{_ BAAS_APPID}}"
+    "APPID": "{{_ .BAAS_APPID}}"
   }
 }
