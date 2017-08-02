@@ -30,11 +30,7 @@ exports.handler = function(event, context, callback) {
     console.log(1)
     const users = yield Api.queryRecords('user')
     console.log(2)
-    try {
-      const members = yield getMembers([], 1)
-    } catch (err) {
-      console.log(err)
-    }
+    const members = yield getMembers([], 1)
     let username = members.map(member => {
       return { name: member.login }
     })
