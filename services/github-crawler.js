@@ -11,7 +11,7 @@ const co = require('co')
 
 const github_host = config.github.HOST
 
-// 判断过滤路径
+// 判断过滤目录路径
 function isfilter (path) {
   if (path.includes('node_modules')) {
     return true
@@ -27,29 +27,30 @@ function analy (text) {
 
 function * request(url, counter) {
   try {
-    // console.log(url)
+    if (isfilter(url)) {
+      counter.filter++
+      return
+    }
+
     counter.total++
     const html = yield fetch(url).then(res => res.text())
     const $ = cheerio.load(html)
     const files = Array.from($('.file-wrap table .content a'))
+
     // 如果是目录
     if (files.length) {
       counter.directory++
       for (const file of files) {
         const path = `${github_host}${file.attribs.href}`
-        if (isfilter(path)) {
-          counter.filter++
-          continue
-        }
         yield request(path, counter)
       }
     } else {
       const text = $('.file').text()
+      counter.file++
+      analy(text)
       // 如果有文件内容
-      if (text) {
+      // if (text) {
         // console.log(1)
-        counter.file++
-        analy(text)
         // const event = {
         //   url,
         //   text
@@ -59,9 +60,9 @@ function * request(url, counter) {
         // } else {
         //   Api.invoke('analy', event)
         // }
-      }
     }
   } catch (err) {
+    console.log(err)
     counter.fail++
   }
 }
@@ -73,6 +74,7 @@ exports.handler = function(event, context, callback) {
     if (!url) {
       throw('参数不正确')
     }
+
     const counter = {
       url: url,
       total: 0,

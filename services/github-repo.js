@@ -21,16 +21,16 @@ function * getRepos (data, user, page) {
 }
 
 exports.handler = function (event, context, callback) {
-  event = JSON.parse(event.toString())
-  const user = event.user
-  if (!user) {
-    callback('参数不正确')
-    return
-  }
-
   co(function * () {
+    event = JSON.parse(event.toString())
+    const user = event.user
+    if (!user) {
+      callback('参数不正确')
+      return
+    }
+
     let result = []
-    let repos = (yield getRepos([], user, 1))
+    let repos = yield getRepos([], user, 1)
 
     repos = repos.filter(repo => !repo.fork).map(repo => repo.html_url)
     for (const url of repos) {

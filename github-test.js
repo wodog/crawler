@@ -5,7 +5,7 @@ const email = require('./lib/email')
 // require('./services/github-users').handler(null, null, console.log)
 
 let repo_data = {
-  user: 'wodog'
+  user: 'heanxu'
 }
 repo_data = Buffer.from(JSON.stringify(repo_data))
 require('./services/github-repo').handler(repo_data, null, console.log)
