@@ -10,9 +10,9 @@ const email = require('./lib/email')
 //
 // require('./services/github-user').handler(null, null, console.log)
 
-let crawler_data = {
-  user: 'wodog',
-  repo: 'fcli'
-}
-crawler_data = Buffer.from(JSON.stringify(crawler_data))
-require('./services/github-crawler').handler(crawler_data, null , console.log)
+// let crawler_data = {
+//   user: 'wodog',
+//   repo: 'fcli'
+// }
+// crawler_data = Buffer.from(JSON.stringify(crawler_data))
+// require('./services/github-crawler').handler(crawler_data, null , console.log)
