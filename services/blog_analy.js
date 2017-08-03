@@ -8,12 +8,13 @@ const { email, customEmail } = require('../lib/email')
 
 let analyResArr = [];
 
-module.exports = (event, ctx, callback) => {
+module.exports = async (event, ctx, callback) => {
   callback();
 
   let { urls, keyword, clearUp } = JSON.parse(event);
   let urlRecords = [];
-
+  let [rule] = await Api.queryRecords('rules', { $limit: 1, type: 'blog' });
+  console.log('rule: ', rule);
   let c = new Crawler({
     maxConnections: 10,
     headers: {
@@ -36,9 +37,9 @@ module.exports = (event, ctx, callback) => {
 
         let $ = res.$;
         if (urlRecord) {
-          let analyChunk = analy(urlRecord, uri.href, $.html());
+          let analyChunk = analy(urlRecord, uri.href, $.html(), rule.regexps);
           analyResArr = analyResArr.concat(analyChunk);
-          if (analyResArr.length >= 20) {
+          if (analyResArr.length >= 100) {
             sendEmail(analyResArr);
             analyResArr = [];
           }
@@ -51,7 +52,7 @@ module.exports = (event, ctx, callback) => {
             } catch(err) {
               console.error(err);
             }
-            console.log('realHrefs: ', realHrefs);
+
             c.queue(realHrefs);
           }
         }
@@ -113,9 +114,9 @@ async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
 }
 
 function analy(urlRecord, href, html, rules) {
-  let r = new RegExp(rules, 'igm');
+  let r = new RegExp(rules.join('|'), 'igm');
   let arr = [];
-  if (r.test(html)) {
+  while (r.test(html)) {
     let idx = (r.lastIndex - 25) < 0 ? 0 : r.lastIndex - 25;
     arr.push({href, text: html.substr(idx, 50)});
   }
@@ -125,7 +126,7 @@ function analy(urlRecord, href, html, rules) {
 
 function sendEmail(analyRes) {
   let msg = analyRes.map(item => {
-    return `url: ${itme.href}, text: ${item.text}`;
+    return `url: ${item.href}, text: ${item.text}`;
   }).join('<br />');
 
   customEmail(msg);
