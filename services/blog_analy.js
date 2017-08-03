@@ -104,7 +104,7 @@ async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
 }
 
 function analy(urlRecord, href, html) {
-  if (html.includes('COFFEE_TOKEN')) {
+  if (~html.indexOf('COFFEE_TOKEN')) {
     email(href, '含有COFFEE_TOKEN');
   }
 }
