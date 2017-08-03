@@ -3,7 +3,7 @@
     "API": "{{_ .EMAIL_API}}",
     "KEY": "{{_ .EMAIL_KEY}}",
     "TOKEN": "{{_ .EMAIL_TOKEN}}",
-    "RECEIVER": "{{_ .RECEIVER}}"
+    "RECEIVERS": {{_ .EMAIL_RECEIVERS}}
   },
   "github": {
     "HOST": "{{_ .GITHUB_HOST}}",
