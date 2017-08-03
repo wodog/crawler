@@ -1,9 +1,10 @@
 'use strict';
 
 const Crawler = require("crawler");
-const Url = require('url');
+const url = require('url');
 const pathParse = require('path').parse;
 const Api = require('../lib/api');
+const email = require('../lib/email')
 
 module.exports = (event, ctx, callback) => {
   let { urls } = JSON.parse(event);
@@ -14,12 +15,19 @@ module.exports = (event, ctx, callback) => {
       if (error) {
         console.log(error);
       } else {
-        handler(res);
-      
-        let hrefs = res.$('a').map((idx, item) => item.attribs.href).toArray()        
-        if (hrefs.length) {
-          let realHrefs = await filterHrefs(hrefs, res.request.uri);
-          c.queue(realHrefs);
+        let uri = res.request.uri;
+        let blogUrl = `${uri.protocol}//${uri.host}`;
+        let [ urlRecord ] = await Api.queryRecords('urls', { $limit: 1, blog: blogUrl });
+        let $ = res.$;
+
+        if (urlRecord) {
+          analy(urlRecord, uri.href, $.html());
+        
+          let hrefs = $('a').map((idx, item) => item.attribs.href).toArray()        
+          if (hrefs.length) {
+            let realHrefs = await filterHrefs(hrefs, uri, blogUrl, urlRecord);
+            c.queue(realHrefs);
+          }
         }
       }
       done();
@@ -33,32 +41,22 @@ module.exports = (event, ctx, callback) => {
   c.queue(urls);
 };
 
-async function filterHrefs(hrefs, url) {
-  if (!url ||
-    !url.host ||
-    !url.protocol ||
-    !url.href) {
-    return [];
-  }
-
-  let blogUrl = `${url.protocol}//${url.host}`;
+async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
   let arr = hrefs.map(h => {
     if (h.startsWith('//')) {
-      h += url.protocol;
+      h += uri.protocol;
     } else if (h.startsWith('/')) {
-      h = Url.resolve(blogUrl, h);
+      h = url.resolve(blogUrl, h);
     } else if (h.startsWith('.')){
-      h = Url.resolve(url.href, h);
+      h = url.resolve(uri.href, h);
     }
 
-    if (!h.startsWith('http')) {
+    if (!h.startsWith(blogUrl)) {
       return;
     }
 
-    let pHref = Url.parse(h);
-    
-    if (pHref.host === url.host &&
-      pHref.path &&
+    let pHref = url.parse(h);
+    if (pHref.path &&
       pHref.path.startsWith('/')) {
 
       let pPath = pathParse(pHref.path);
@@ -69,8 +67,7 @@ async function filterHrefs(hrefs, url) {
     }
   }).filter(item => item);
 
-  let [ urlRecord ] = await Api.queryRecords('urls', { $limit: 1, blog: blogUrl });
-  let hrefsList = urlRecords && urlRecords.hrefs;
+  let hrefsList = urlRecord.hrefs;
   let tmpArr = [];
   if (hrefsList && hrefsList.length) {
     tmpArr = arr.filter(item => !hrefsList.includes(item));
@@ -80,6 +77,8 @@ async function filterHrefs(hrefs, url) {
   return tmpArr;
 }
 
-function handler(res) {
-
+function analy(urlRecord, href, html) {
+  if (html.includes('COFFEE_TOKEN')) {
+    email(`泄露地址: ${href}`, 'yaokui.xiong@ele.me')
+  }
 }
