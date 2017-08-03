@@ -44,9 +44,9 @@ exports.handler = function (event, context, callback) {
       }
     }
 
-    console.log(`总共${repos.length}个repo, 分别是 ${repos}`)
+    console.log(`总共 ${repos.length} 个repo, 分别是 ${repos}`)
 
     if (config.debug) return
-    callback(null, `总共${repos.length}个repo, 分别是 ${repos}`)
+    callback(null, `总共 ${repos.length} 个repo, 分别是 ${repos}`)
   }).catch(callback)
 }
