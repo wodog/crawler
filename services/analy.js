@@ -17,5 +17,5 @@ exports.handler = function (event, context, callback) {
   analy(url, text)
 
   if (config.debug) return
-  callback('校验完成')
+  callback(`校验完成 ${url}`)
 }
