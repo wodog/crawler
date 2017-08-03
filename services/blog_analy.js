@@ -9,7 +9,7 @@ const { email, customEmail } = require('../lib/email')
 let analyResArr = [];
 
 module.exports = async (event, ctx, callback) => {
-  callback();
+  callback(null, '正在分析。。。');
 
   let { urls, clearUp } = JSON.parse(event);
   let urlRecords = [];
