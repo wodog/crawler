@@ -1,31 +1,26 @@
-'use strict'
-
 const co = require('co')
 const github = require('../lib/github')
 const Api = require('../lib/api')
+const config = require('../config')
 
 // 获取所有用户
 function * getMembers (data, page) {
   const per_page = 100
-  console.log(2.1)
-  let members = yield github.orgs.getMembers({
-    org: 'eleme',
+  const { data: members } = yield github.orgs.getMembers({
+    org: 'elemefe',
     page: page,
     per_page
   })
-  console.log(2.2)
-  members = members.data
   data = data.concat(members)
   if (members.length === per_page) {
-    console.log(2.3)
     data = yield getMembers(data, ++page)
   }
-  console.log(2.4)
   return data
 }
 
 // 更新用户列表
 exports.handler = function(event, context, callback) {
+  console.log(config)
   co(function * () {
     console.log(1)
     const users = yield Api.queryRecords('user')
@@ -35,6 +30,7 @@ exports.handler = function(event, context, callback) {
       return { name: member.login }
     })
     console.log(3)
+    console.log(username)
     // 取差异
     username = username.filter(u => {
       for (const user of users) {
@@ -50,6 +46,8 @@ exports.handler = function(event, context, callback) {
       console.log('更新用户', username)
     }
 
-    callback(null, '更新成功')
+    callback(null, '更新用户成功')
+  }).catch(err => {
+    callback(err)
   })
 }
