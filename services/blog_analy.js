@@ -87,6 +87,6 @@ async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
 
 function analy(urlRecord, href, html) {
   if (html.includes('COFFEE_TOKEN')) {
-    email(`泄露地址: ${href}`, 'yaokui.xiong@ele.me')
+    email(href, '含有COFFEE_TOKEN');
   }
 }
