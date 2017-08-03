@@ -17,15 +17,22 @@ module.exports = (event, ctx, callback) => {
       } else {
         let uri = res.request.uri;
         let blogUrl = `${uri.protocol}//${uri.host}`;
-        let [ urlRecord ] = await Api.queryRecords('urls', { $limit: 1, blog: blogUrl });
-        let $ = res.$;
+        let urlRecord;
+        try {
+          urlRecord = (await Api.queryRecords('urls', { $limit: 1, blog: blogUrl }))[0];
+        } catch(err) {
+          console.log(err);
+          done();
+        }
 
+        let $ = res.$;
         if (urlRecord) {
           analy(urlRecord, uri.href, $.html());
         
           let hrefs = $('a').map((idx, item) => item.attribs.href).toArray()        
           if (hrefs.length) {
             let realHrefs = await filterHrefs(hrefs, uri, blogUrl, urlRecord);
+            console.log('realHrefs: ', realHrefs);
             c.queue(realHrefs);
           }
         }
@@ -68,10 +75,11 @@ async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
   }).filter(item => item);
 
   let hrefsList = urlRecord.hrefs;
-  let tmpArr = [];
-  if (hrefsList && hrefsList.length) {
-    tmpArr = arr.filter(item => !hrefsList.includes(item));
-    await updateRecord('urls', urlRecord._id, { $addToSet: { hrefs: { $each: tmpArr } } });
+  let tmpArr = arr.filter(item => hrefsList.indexOf(item) === -1);
+  try {
+    await Api.updateRecord('urls', urlRecord._id, { $addToSet: { hrefs: { $each: tmpArr } } });
+  } catch(err) {
+    console.log(err);
   }
 
   return tmpArr;
