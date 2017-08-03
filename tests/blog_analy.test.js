@@ -3,7 +3,7 @@
 const blogAnaly = require('../es5/blog_analy');
 
 let body = {
-  urls: ['https://shijianan.com', 'http://wodog.github.io', 'https://smallpath.me'],
+  urls: ['https://shijianan.com'],
   clearUp: true
 };
 

@@ -11,7 +11,7 @@ let analyResArr = [];
 module.exports = async (event, ctx, callback) => {
   callback();
 
-  let { urls, keyword, clearUp } = JSON.parse(event);
+  let { urls, clearUp } = JSON.parse(event);
   let urlRecords = [];
   let [rule] = await Api.queryRecords('rules', { $limit: 1, type: 'blog' });
   console.log('rule: ', rule);
