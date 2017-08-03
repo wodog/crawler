@@ -7,21 +7,26 @@ const Api = require('../lib/api');
 const email = require('../lib/email')
 
 module.exports = (event, ctx, callback) => {
-  let { urls } = JSON.parse(event);
+  let { urls, clearUp } = JSON.parse(event);
+  let urlRecords = [];
 
   let c = new Crawler({
     maxConnections: 10,
+    headers: {
+      accept: 'text/html'
+    },
     callback: async (error, res, done) => {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         let uri = res.request.uri;
         let blogUrl = `${uri.protocol}//${uri.host}`;
         let urlRecord;
         try {
           urlRecord = (await Api.queryRecords('urls', { $limit: 1, blog: blogUrl }))[0];
+          urlRecords.push(urlRecord);
         } catch(err) {
-          console.log(err);
+          console.error(err);
           done();
         }
 
@@ -31,7 +36,12 @@ module.exports = (event, ctx, callback) => {
         
           let hrefs = $('a').map((idx, item) => item.attribs.href).toArray()        
           if (hrefs.length) {
-            let realHrefs = await filterHrefs(hrefs, uri, blogUrl, urlRecord);
+            let realHrefs = [];
+            try {
+              realHrefs = await filterHrefs(hrefs, uri, blogUrl, urlRecord);
+            } catch(err) {
+              console.error(err);
+            }
             console.log('realHrefs: ', realHrefs);
             c.queue(realHrefs);
           }
@@ -41,12 +51,24 @@ module.exports = (event, ctx, callback) => {
     }
   });
 
-  c.on('drain', () => {
+  c.on('drain', async () => {
+    if (clearUp) {
+      try {
+        await clear(urlRecords);
+      } catch(err) {
+        console.error(err);
+      }
+    }
     console.log('done');
   });
 
   c.queue(urls);
 };
+
+function clear(records) {
+  let ids = records.map(item => item._id);
+  return Api.updateRecords('urls', ids, { $set: { hrefs: [] } });
+}
 
 async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
   let arr = hrefs.map(h => {
@@ -76,11 +98,7 @@ async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
 
   let hrefsList = urlRecord.hrefs;
   let tmpArr = arr.filter(item => hrefsList.indexOf(item) === -1);
-  try {
-    await Api.updateRecord('urls', urlRecord._id, { $addToSet: { hrefs: { $each: tmpArr } } });
-  } catch(err) {
-    console.log(err);
-  }
+  await Api.updateRecords('urls', urlRecord._id, { $addToSet: { hrefs: { $each: tmpArr } } });
 
   return tmpArr;
 }
