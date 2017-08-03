@@ -2,7 +2,8 @@
   "email": {
     "API": "{{_ .EMAIL_API}}",
     "KEY": "{{_ .EMAIL_KEY}}",
-    "TOKEN": "{{_ .EMAIL_TOKEN}}"
+    "TOKEN": "{{_ .EMAIL_TOKEN}}",
+    "RECEIVER": "{{_ .RECEIVER}}"
   },
   "github": {
     "HOST": "{{_ .GITHUB_HOST}}",

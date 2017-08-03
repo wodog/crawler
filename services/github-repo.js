@@ -31,6 +31,7 @@ exports.handler = function (event, context, callback) {
     let result = []
     let repos = yield getRepos([], user, 1)
 
+    // 过滤fork
     repos = repos.filter(repo => !repo.fork).map(repo => repo.html_url)
     for (const url of repos) {
       const data = {
@@ -43,7 +44,9 @@ exports.handler = function (event, context, callback) {
       }
     }
 
-    console.log(`总共${repos.length}个repo, 分别是 ${repos}`)
-    callback(null, `总共${repos.length}个repo, 分别是 ${repos}`)
+    console.log(`总共 ${repos.length} 个repo, 分别是 ${repos}`)
+
+    if (config.debug) return
+    callback(null, `总共 ${repos.length} 个repo, 分别是 ${repos}`)
   }).catch(callback)
 }
