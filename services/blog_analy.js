@@ -4,10 +4,12 @@ const Crawler = require("crawler");
 const url = require('url');
 const pathParse = require('path').parse;
 const Api = require('../lib/api');
-const email = require('../lib/email')
+const { email, customEmail } = require('../lib/email')
+
+let analyResArr = [];
 
 module.exports = (event, ctx, callback) => {
-  let { urls, clearUp } = JSON.parse(event);
+  let { urls, keyword, clearUp } = JSON.parse(event);
   let urlRecords = [];
 
   let c = new Crawler({
@@ -32,7 +34,12 @@ module.exports = (event, ctx, callback) => {
 
         let $ = res.$;
         if (urlRecord) {
-          analy(urlRecord, uri.href, $.html());
+          let analyChunk = analy(urlRecord, uri.href, $.html());
+          analyResArr = analyResArr.concat(analyChunk);
+          if (analyResArr.length >= 20) {
+            sendEmail(analyResArr);
+            analyResArr = [];
+          }
         
           let hrefs = $('a').map((idx, item) => item.attribs.href).toArray()        
           if (hrefs.length) {
@@ -103,8 +110,29 @@ async function filterHrefs(hrefs, uri, blogUrl, urlRecord) {
   return tmpArr;
 }
 
-function analy(urlRecord, href, html) {
-  if (~html.indexOf('COFFEE_TOKEN')) {
-    email(href, '含有COFFEE_TOKEN');
+function analy(urlRecord, href, html, rules) {
+  let r = new RegExp(rules, 'igm');
+  let arr = [];
+  if (r.test(html)) {
+    let idx = (r.lastIndex - 25) < 0 ? 0 : r.lastIndex - 25;
+    arr.push({href, text: html.substr(idx, 50)});
   }
+
+  return arr;
 }
+
+function sendEmail(analyRes) {
+  let msg = analyRes.map(item => {
+    return `url: ${itme.href}, text: ${item.text}`;
+  }).join('<br />');
+
+  customEmail(msg);
+}
+
+// flush send email
+setInterval(() => {
+  if (analyResArr.length) {
+    sendEmail(analyResArr);
+    analyResArr = [];
+  }
+}, 5000);
