@@ -18,6 +18,7 @@ exports.handler = function (event, context, callback) {
         Api.invoke('github-repo', data)
       }
     }
+    if (config.debug) return
     callback(null, `执行所有用户 ${users} 的仓库`)
   }).catch(callback)
 }

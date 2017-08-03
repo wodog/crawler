@@ -46,6 +46,7 @@ exports.handler = function(event, context, callback) {
       console.log('更新用户', username)
     }
 
+    if (config.debug) return
     callback(null, '更新用户成功')
   }).catch(err => {
     callback(err)
