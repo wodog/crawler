@@ -11,9 +11,11 @@ const email = require('./lib/email')
 // require('./services/github-repo').handler(repo_data)
 
 
-let crawler_data = {
-  url: 'https://github.com/wodog/crawler'
-}
-require('./services/github-crawler').handler(Buffer.from(JSON.stringify(crawler_data)))
+// let crawler_data = {
+//   url: 'https://github.com/wodog/crawler'
+// }
+// require('./services/github-crawler').handler(Buffer.from(JSON.stringify(crawler_data)))
 
 // require('./services/github-repos').handler(null)
+
+// email('http://test', 'text')
