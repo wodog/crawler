@@ -9,6 +9,8 @@ const { email, customEmail } = require('../lib/email')
 let analyResArr = [];
 
 module.exports = (event, ctx, callback) => {
+  callback();
+
   let { urls, keyword, clearUp } = JSON.parse(event);
   let urlRecords = [];
 

@@ -1,4 +1,4 @@
-const email = require('../lib/email')
+const { email } = require('../lib/email')
 const config = require('../config')
 
 const pattern = new RegExp('(coffee_token|password)', 'i')
