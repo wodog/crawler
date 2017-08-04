@@ -4,12 +4,12 @@ const Crawler = require("crawler");
 const url = require('url');
 const pathParse = require('path').parse;
 const Api = require('../lib/api');
-const { email, customEmail } = require('../lib/email')
+const { email, customEmail } = require('../lib/email');
 
 let analyResArr = [];
 
 exports.handler = async (event, ctx, callback) => {
-  callback(null, '正在分析...');
+  callback('正在分析...');
 
   let { urls, clearUp } = JSON.parse(event.toString());
   let urlRecords = [];

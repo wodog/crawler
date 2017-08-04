@@ -1,6 +1,6 @@
 'use strict';
 
-const blogAnaly = require('../es5/blog_analy').handler;
+const blogAnaly = require('../es5/github-users').handler;
 
 let body = {
   urls: ['https://shijianan.com'],
