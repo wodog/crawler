@@ -15,7 +15,7 @@ module.exports = async (event, ctx, callback) => {
     body: JSON.stringify({msg: '正在分析...'})
   });
 
-  let { urls, clearUp } = JSON.parse(event);
+  let { urls, clearUp } = JSON.parse(event.toString());
   let urlRecords = [];
   let [rule] = await Api.queryRecords('rules', { $limit: 1, type: 'blog' });
   console.log('rule: ', rule);
