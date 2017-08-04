@@ -9,7 +9,11 @@ const { email, customEmail } = require('../lib/email')
 let analyResArr = [];
 
 module.exports = async (event, ctx, callback) => {
-  callback(null, '正在分析。。。');
+  callback(null, {
+    isBase64Encoded: false,
+    statusCode: 200,
+    body: JSON.stringify({msg: '正在分析...'})
+  });
 
   let { urls, clearUp } = JSON.parse(event);
   let urlRecords = [];
