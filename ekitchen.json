@@ -4,7 +4,7 @@
   "notice": ["zhongyang.zhou@ele.me"],
   "services": [{
     "serviceName": "crawler_github",
-    "dir": "es5",
+    "dir": "es5/",
     "funcs": [{
       "functionName": "github-user",
       "handler": "github-user.handler",

@@ -10,7 +10,6 @@ let analyResArr = [];
 
 exports.handler = async (event, ctx, callback) => {
   callback(null, '正在分析...');
-  return;
 
   let { urls, clearUp } = JSON.parse(event.toString());
   let urlRecords = [];
