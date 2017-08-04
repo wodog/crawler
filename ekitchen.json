@@ -4,39 +4,40 @@
   "notice": ["zhongyang.zhou@ele.me"],
   "services": [{
     "serviceName": "crawler_github",
+    "dir": "es5",
     "funcs": [{
       "functionName": "github-user",
-      "handler": "es5/github-user.handler",
+      "handler": "github-user.handler",
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
     }, {
       "functionName": "github-repo",
-      "handler": "es5/github-repo.handler",
+      "handler": "github-repo.handler",
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
     }, {
       "functionName": "github-repos",
-      "handler": "es5/github-repos.handler",
+      "handler": "github-repos.handler",
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
     }, {
       "functionName": "github-crawler",
-      "handler": "es5/github-crawler.handler",
+      "handler": "github-crawler.handler",
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
     }, {
       "functionName": "analy",
-      "handler": "es5/analy.handler",
+      "handler": "analy.handler",
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
     },{
       "functionName": "blog_analy",
-      "handler": "es5/blog_analy.handler",
+      "handler": "blog_analy.handler",
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
