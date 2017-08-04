@@ -8,7 +8,7 @@ const { email, customEmail } = require('../lib/email')
 
 let analyResArr = [];
 
-module.exports = async (event, ctx, callback) => {
+exports.handler = async (event, ctx, callback) => {
   callback(null, {
     isBase64Encoded: false,
     statusCode: 200,
