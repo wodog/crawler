@@ -5,7 +5,7 @@
 const fetch = require('node-fetch')
 const config = require('../config')
 const cheerio = require('cheerio')
-const email = require('../lib/email')
+const { email } = require('../lib/email')
 const Api = require('../lib/api')
 const co = require('co')
 

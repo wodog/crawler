@@ -1,9 +1,9 @@
 'use strict';
 
-const blogAnaly = require('../es5/blog_analy');
+const blogAnaly = require('../es5/github-users').handler;
 
 let body = {
-  urls: ['https://shijianan.com', 'http://wodog.github.io', 'https://smallpath.me'],
+  urls: ['https://shijianan.com'],
   clearUp: true
 };
 

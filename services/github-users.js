@@ -1,3 +1,5 @@
+'use strict';
+
 const co = require('co')
 const github = require('../lib/github')
 const Api = require('../lib/api')
