@@ -35,9 +35,15 @@
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
-    },{
+    }, {
       "functionName": "blog_analy",
       "handler": "blog_analy.handler",
+      "memorySize": 128,
+      "runtime": "nodejs4.4",
+      "timeout": 300
+    }, {
+      "functionName": "test",
+      "handler": "test.handler",
       "memorySize": 128,
       "runtime": "nodejs4.4",
       "timeout": 300
