@@ -42,8 +42,11 @@ function * request(url, counter) {
         yield request(`${github_host}${file.attribs.href}`, counter)
       }
     } else {
-      counter.file++
       const text = $('.file').text()
+      if (!text) {
+        return
+      }
+      counter.file++
       const event = {
         url,
         text
@@ -76,10 +79,18 @@ exports.handler = function(event, context, callback) {
       file: 0,
       fail: 0
     }
-    console.log(`仓库 ${counter.url} 开始搜索`)
     yield request(url, counter)
 
-    console.log(`仓库 ${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
+    // console.log(`仓库 ${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
+
+    Api.createRecord('stats', {
+      url: counter.url,
+      counter_total: counter.total,
+      counter_filter: counter.filter,
+      counter_directory: counter.directory || 1,
+      counter_file: counter.file,
+      counter_fail: counter.fail
+    })
 
     if (config.debug) return
     callback(null, `仓库 ${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
