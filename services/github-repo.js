@@ -22,12 +22,15 @@ function * getRepos (data, user, page) {
 
 exports.handler = function (event, context, callback) {
   co(function * () {
+    console.log('de1')
     event = JSON.parse(event.toString())
+    console.log('de2')
     const user = event.user
     if (!user) {
+      console.log('de3')
       throw('参数不正确')
     }
-
+    console.log('de4')
     let result = []
     let repos = yield getRepos([], user, 1)
 
