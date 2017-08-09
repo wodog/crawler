@@ -71,20 +71,22 @@ exports.handler = function(event, context, callback) {
       throw('参数不正确')
     }
 
-    const counter = {
+    const stats = yield Api.createRecord('stats', {
       url: url,
+      finished: false
+    })
+
+    const counter = {
       total: 0,
       filter: 0,
       directory: 0,
       file: 0,
       fail: 0
     }
-    // yield request(url, counter)
+    yield request(url, counter)
 
-    // console.log(`仓库 ${counter.url}, 总请求: ${counter.total}, 过滤路径: ${counter.filter}, 目录: ${counter.directory || 1}, 文件： ${counter.file}, 失败: ${counter.fail}`)
-
-    Api.createRecord('stats', {
-      url: counter.url,
+    Api.updateRecords('stats', stats._id, {
+      finished: true,
       counter_total: counter.total,
       counter_filter: counter.filter,
       counter_directory: counter.directory || 1,
