@@ -5,12 +5,12 @@ const email = require('../lib/email')
 // 更新所有用户
 // require('../services/github-users').handler(null)
 
-// 爬单个用户
-let repo_data = {
-  user: 'wodog'
-}
-repo_data = Buffer.from(JSON.stringify(repo_data))
-require('../services/github-repo').handler(repo_data)
+// // 爬单个用户
+// let repo_data = {
+//   user: 'wodog'
+// }
+// repo_data = Buffer.from(JSON.stringify(repo_data))
+// require('../services/github-repo').handler(repo_data)
 
 
 // 爬单个仓库
@@ -23,3 +23,5 @@ require('../services/github-repo').handler(repo_data)
 // require('../services/github-repos').handler(null)
 
 // email('http://test', 'text')
+
+require('../services/test').handler(null, null, console.log)
