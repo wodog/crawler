@@ -6,7 +6,7 @@ exports.handler = function(event, context, callback) {
     finished: false
   })
   console.log(1)
-  callback('im test ok')
+  callback(null, 'im test ok')
   // setTimeout(function() {
   //   const stats = Api.createRecord('stats', {
   //     url: '10',

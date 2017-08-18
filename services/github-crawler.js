@@ -85,7 +85,7 @@ exports.handler = function(event, context, callback) {
     }
     yield request(url, counter)
 
-    Api.updateRecords('stats', stats._id, {
+    yield Api.updateRecords('stats', stats._id, {
       finished: true,
       counter_total: counter.total,
       counter_filter: counter.filter,
