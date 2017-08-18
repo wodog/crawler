@@ -6,7 +6,7 @@ const Api = require('../lib/api')
 const config = require('../config')
 
 exports.handler = function (event, context, callback) {
-  Api.deleteRecords().then(() => {
+  Api.deleteRecords('stats').then(() => {
     Api.queryRecords('user').then(users => {
       users = users.map(user => user.name)
       for (const user of users) {

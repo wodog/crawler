@@ -20,8 +20,8 @@ const email = require('../lib/email')
 // require('../services/github-crawler').handler(Buffer.from(JSON.stringify(crawler_data)))
 
 // 爬所有用户
-// require('../services/github-repos').handler(null)
+require('../services/github-repos').handler(null)
 
 // email('http://test', 'text')
 
-require('../services/test').handler(null, null, console.log)
+// require('../services/test').handler(null, null, console.log)
